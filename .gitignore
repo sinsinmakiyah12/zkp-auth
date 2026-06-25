@@ -1,0 +1,9 @@
+node_modules/
+.next/
+build/
+*.ptau
+.env
+.env.local
+*.zkey
+*.r1cs
+*.sym
