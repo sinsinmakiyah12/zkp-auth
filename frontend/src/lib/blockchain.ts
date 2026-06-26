@@ -28,7 +28,7 @@ export const NETWORK_NAME = "Sepolia Testnet";
  * Koneksi ke MetaMask
  */
 export async function connectWallet(): Promise<string> {
-  if (!window.ethereum) {
+  if (!(window as any).ethereum) {
     throw new Error("MetaMask tidak ditemukan! Install MetaMask terlebih dahulu.");
   }
 
