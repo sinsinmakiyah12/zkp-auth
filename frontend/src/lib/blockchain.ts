@@ -33,7 +33,7 @@ export async function connectWallet(): Promise<string> {
   }
 
   // Request akses ke wallet
-  const accounts = await window.ethereum.request({
+  const accounts = await (window as any).ethereum.request({
     method: "eth_requestAccounts",
   });
 
@@ -48,14 +48,14 @@ export async function connectWallet(): Promise<string> {
  */
 export async function switchToSepolia() {
   try {
-    await window.ethereum.request({
+    await (window as any).ethereum.request({
       method: "wallet_switchEthereumChain",
       params: [{ chainId: `0x${CHAIN_ID.toString(16)}` }],
     });
   } catch (error: any) {
     // Kalau network belum ada, tambahkan
     if (error.code === 4902) {
-      await window.ethereum.request({
+      await (window as any).ethereum.request({
         method: "wallet_addEthereumChain",
         params: [{
           chainId: `0x${CHAIN_ID.toString(16)}`,
@@ -73,7 +73,7 @@ export async function switchToSepolia() {
  * Get contract instance
  */
 export async function getContract() {
-  const provider = new ethers.BrowserProvider(window.ethereum);
+  const provider = new ethers.BrowserProvider((window as any).ethereum);
   const signer = await provider.getSigner();
   return new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, signer);
 }
@@ -147,7 +147,7 @@ export async function loginOnChain(
  * Cek apakah username tersedia
  */
 export async function checkUsernameAvailable(username: string): Promise<boolean> {
-  const provider = new ethers.BrowserProvider(window.ethereum);
+  const provider = new ethers.BrowserProvider((window as any).ethereum);
   const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider);
   const usernameHash = hashUsername(username);
   return await contract.isUsernameAvailable(usernameHash.toString());
@@ -157,7 +157,7 @@ export async function checkUsernameAvailable(username: string): Promise<boolean>
  * Ambil salt user dari blockchain (untuk login)
  */
 export async function getUserSalt(username: string): Promise<bigint> {
-  const provider = new ethers.BrowserProvider(window.ethereum);
+  const provider = new ethers.BrowserProvider((window as any).ethereum);
   const contract = new ethers.Contract(CONTRACT_ADDRESS, CONTRACT_ABI, provider);
   const usernameHash = hashUsername(username);
   const salt = await contract.getUserSalt(usernameHash.toString());
