@@ -140,7 +140,7 @@ export default function RegisterForm({ walletAddress, onSuccess, onBack }: Props
               {logs.map((log, i) => (
                 <div key={i} className="text-xs font-mono text-gray-500">{log}</div>
               ))}
-              {step !== "done" && (
+              {step === "hashing" || step === "blockchain" && (
                 <div className="text-xs font-mono text-indigo-400 animate-pulse">▋</div>
               )}
             </div>
